@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>上传图片</title>
+</head>
+<body>
+<form action="http://localhost/subassembly/uploadPicterController/upload.html" method="post" enctype="multipart/form-data"> 
+<img src = "http://localhost/subassembly/upload/image/201510\DE2050A01F8A4B25B16D2C0533FEF9B7.JPG"> 
+<input type="file" name="file" /> <input type="submit" value="Submit" /></form>  
+</body>
+</html>
+ 

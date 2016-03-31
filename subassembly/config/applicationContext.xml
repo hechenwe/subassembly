@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/data/mongo       
+       http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd  
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd   
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<context:component-scan base-package="com.sooncode.subassembly" />
+	<!-- <mongo:db-factory id="mongoDbFactory" host="127.0.0.1"
+		port="27017" dbname="admin" username="root" password="root" />
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean> -->
+	 
+	 
+
+
+	<context:annotation-config />
+	<!-- <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration" 
+		/> <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" 
+		/> -->
+	<!-- 定时器 start -->
+	<!-- <bean id="timer" class="com.sooncode.subassembly.timer.Timer"></bean> -->
+	<!-- 定时器配置 -->
+	<!-- <bean id="timeDitail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="timer"></property>指定任务类
+		<property name="targetMethod" value="doSome"></property>指定任务方法
+	</bean> -->
+	<!-- 定义时间间隔触发器 -->
+	<!-- <bean id="cronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="timeDitail"></property>
+		<property name="cronExpression">
+			<value>*/5 * * * * ?</value>
+		</property>
+	</bean> -->
+	<!-- 启动定时器 -->
+	<!-- <bean id="startJob"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTriggerBean" />
+			</list>
+		</property>
+	</bean> -->
+
+
+
+	<!-- 定时器 end -->
+
+	<!-- 定义CacheManager -->
+	<bean id="cacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<!-- 指定配置文件的位置 -->
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<!-- 指定新建的CacheManager的名称 -->
+		<property name="cacheManagerName" value="cacheManagerName" />
+	</bean>
+
+	<!-- 定义一个Ehcache -->
+	<bean id="userCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+</beans>

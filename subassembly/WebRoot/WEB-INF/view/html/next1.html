@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Theme Template for Bootstrap</title>
+<link rel="icon" href="/daocodebuilder/view/images/favicon.ico">
+<link href="/daocodebuilder/view/css/bootstrap.min.css" rel="stylesheet">
+<link href="/daocodebuilder/view/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="/daocodebuilder/view/css/theme.css" rel="stylesheet">
+<script src="/daocodebuilder/view/js/ie-emulation-modes-warning.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="../../assets/js/docs.min.js"></script>
+
+<script src="../js/ie10-viewport-bug-workaround.js"></script>
+ 
+</head>
+
+<body role="document">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"><h4>SoonCode</h4></a>
+			</div>
+			ooxx-theme sssf
+		</div>
+	</nav>
+	<div class="container theme-showcase" role="main">
+
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h1>Dao层代码生成系统</h1>
+			<p>生成*.java,*.xml,entity 等代码</p>
+		</div>
+
+		<div style="height: 30px"></div>
+		<div class="col-md-12">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th><h5>模块序号</h5></th>
+						<th><h5>模块名称</h5></th>
+						<th><h5>表名称</h5></th>
+						<th><h5>主键</h5></th>
+						<th><h5>外键</h5></th>
+						<th><h5>外键参照的表</h5></th>
+						<th><h5>被参照的次数</h5></th>
+						<th><h5>关联的中间表个数</h5></th>
+					</tr>
+				</thead>
+				<tbody>
+	  <#list modules as module>
+             <#list module.tables as table>
+                   <#list table.thisTable.foreignKeyAndForeignProperties as fk >
+				    <tr>
+						<td rowspan=" " style="text-align: center; vertical-align: middle;">${module_index+1}</td>
+						<td rowspan=" " style="text-align: center; vertical-align: middle;">${module.moduleName}</td>
+						<td rowspan=" " style="text-align: center; vertical-align: middle;">${table.thisTable.tableName}</td>
+						<td rowspan=" " style="text-align: center; vertical-align: middle;"><#list table.thisTable.primaryKeyAndPrimaryProperties as pk>${pk.primaryKeyName}</#list></td>
+						<td>${fk.foreignKeyName}</td>
+						<td>${fk.pkTableName}</td>
+						<td>1</td>
+						<td>2</td>
+					</tr>	
+                   </#list>
+              </#list>
+        </#list>
+				
+					<!-- <tr>
+
+						<td>CLASS_NO</td>
+						<td>CODE_CLASS</td>
+						<td>XXOO</td>
+						<td>CODE_STUDENT_COURSE</td>
+
+					</tr>
+					<tr>
+
+						<td rowspan="2" style="text-align: center; vertical-align: middle;">CODE_STUDENT</td>
+						<td rowspan="2" style="text-align: center; vertical-align: middle;">STUDENT_NO</td>
+						<td>CLASS_NO</td>
+						<td>CODE_CLASS</td>
+						<td>XXOO</td>
+						<td>CODE_STUDENT_COURSE</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td colspan="2" style="text-align: center; vertical-align: middle;">Larry the Bird</td>
+						<td>@twitter</td>
+					</tr> -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

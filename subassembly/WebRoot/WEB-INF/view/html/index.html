@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Theme Template for Bootstrap</title>
+    <link rel="icon" href="/daocodebuilder/view/images/favicon.ico">
+    <link href="/daocodebuilder/view/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/daocodebuilder/view/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/daocodebuilder/view/css/theme.css" rel="stylesheet">
+    <script src="/daocodebuilder/view/js/ie-emulation-modes-warning.js"></script>
+    <script src="/daocodebuilder/view/js/jquery-1.9.1.min.js"></script>
+    <script src="/daocodebuilder/view/js/bootstrap.min.js"></script>
+    
+  </head>
+
+  <body role="document">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><h4>SoonCode</h4></a>
+        </div>  ooxx-theme  sssf
+      </div>
+    </nav>
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Dao层代码生成系统</h1>
+        <p>生成*.java,*.xml,entity 等代码</p>
+      </div>
+
+        <div class="page-header">
+	        <h1>第一步 : 连接数据库</h1>
+	        
+	        <h4>1. 数据库主机IP地址</h4>
+	        <input type="text" id="ip" class="form-control" placeholder=" 如：192.168.1.88" required autofocus>
+	        
+	        <h4>2. 端口</h4>
+	        <input type="text" id="port" class="form-control" placeholder=" 如：3306" required autofocus>
+	        
+	        <h4>3. 用户名</h4>
+	        <input type="text" id="user" class="form-control" placeholder=" 如：root" required autofocus>
+	        
+	        <h4>4. 密码</h4>
+	        <input type="text" id="password" class="form-control" placeholder=" 如：root" required autofocus>
+	        
+	        <h4>5. 数据库名称</h4>
+	        <input type="text" id="databaseName" class="form-control" placeholder=" 如：test" required autofocus>
+	        <div style="height: 12px"></div>
+	        <button type="button" class="btn btn-default" onclick="testConnection();"> 测试链接 </button>    <span id="message_span_id" style="margin-left: 20px ;color: red"></span>
+        </div>
+        <div class="page-header">
+        <h1>第二步 : 环境配置</h1>
+        <h4>1. 工程名称</h4>
+        <input type=" " id=" " class="form-control" placeholder=" 如：daocodebuilder" required autofocus>
+        <h4>2. 工程工作空间</h4>
+        <input type=" " id=" " class="form-control" placeholder=" 如：D:/workspace/sooncode" required autofocus>
+        <h4>3. 实体类所在包的位置</h4>
+        <input type=" " id=" " class="form-control" placeholder="工程名称  如：daocodebuilder" required autofocus>
+        <h4>4. Dao层接口和Mapper.xml文件所在包的位置</h4>
+        <input type=" " id=" " class="form-control" placeholder="工程名称  如：daocodebuilder" required autofocus>
+        <h4>5. 工程名称</h4>
+        <input type=" " id=" " class="form-control" placeholder="工程名称  如：daocodebuilder" required autofocus>
+      <div style="height: 12px"></div>
+      <button style="width:100px" type="button" class="btn btn-lg btn-default"> 下一步  </button>
+      </div>
+     <script type="text/javascript">
+     function testConnection(){
+    	 
+    	 var ip = $("#ip").val();
+    	 var port = $("#port").val();
+    	 var user = $("#user").val();
+    	 var password = $("#password").val();
+    	 var databaseName = $("#databaseName").val();
+    	 
+    	 $.ajax({
+ 			url : '../indexController/testConnect.html?ip='+ip+'&port='+port+'&user='+user+'&password='+password+'&databaseName='+databaseName, 
+ 			type : "POST",
+ 			dataType : 'text',//解析方式
+ 			success : function(result) {
+ 				 if(result=="yes"){
+ 					$("#message_span_id").text("连接成功！"); 
+ 				 }else{
+ 					$("#message_span_id").text("连接失败！"); 
+ 				 }
+ 			},
+ 			error : function(e) {
+ 			},
+ 		});
+
+    	 
+     }
+     </script> 
+    
+    
+    
+    
+  </body>
+</html>

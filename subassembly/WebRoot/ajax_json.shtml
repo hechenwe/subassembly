@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script type="text/javascript" src="http://localhost:8080/subassembly/js/jquery-1.9.1.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" >
+	$(document).ready(function() {
+		//传递字符串格式json对象到后台（一个json对象）  
+		$("#resolveJsonObject").click(function() {
+			var userName = encodeURI($("#userName").attr("value"));
+			var age = encodeURI($("#age").attr("value"));
+
+			var user = {
+				userName : userName,
+				age : age
+			};
+			var aMenu = encodeURI(JSON.stringify(user));
+
+			$.ajax({
+				url : "http://localhost/subassembly/test.html",
+				data : "json=" + aMenu,
+				success : function(data) {
+
+				}
+			});
+		});
+
+		//传递json数组到后台  
+		$("#resolveJsonArray").click(function() {
+			var userName =  $("#userName").val();// encodeURI($("#userName").attr("value"));
+			var age =$("#age").val();// encodeURI($("#age").attr("value"));
+
+			//数组开始  
+			var user1 = {
+				userName : userName,
+				age : age
+			};
+			var allMenu = {
+				"menu" : []
+			};
+			allMenu.menu.push(user1);
+			var allMenu1 = encodeURI(JSON.stringify(allMenu));
+            alert("json=" + allMenu1);
+			$.ajax({
+				//json数组  
+				url : "http://123.56.141.214:38081/iwrong-service-v3/api/grade/all",
+				//data : "json=" + allMenu1,
+				type:"POST",
+				//jsonp:'callback',
+				//jsonpCallback: 'CallBack',
+				dataType: 'jsonp',
+				success : function(data) {
+					  console.log(data);
+					 //CallBack(data);
+				},
+			    error: function(XMLHttpRequest, textStatus, errorThrown) {
+		            alert('error');
+		            alert(XMLHttpRequest.status);
+		            alert(XMLHttpRequest.readyState);
+		            alert(textStatus);
+		            alert(data);
+		        }
+			});
+		});
+
+		//接收后台的json在前台解析  
+		$("#resolveJson").click(function() {
+
+			$.ajax({
+				//解析从后台返回的json数据  
+				url : "http://localhost/subassembly/test.html",
+				type : "post",
+				success : function(data) {
+					var arr = eval(data);
+					alert(arr.length);
+					for (var m = 0; m < arr.length; m++) {
+						alert(arr[m].user.userName);
+					}
+				}
+			});
+		});
+	});
+	
+	
+	function CallBack( ){
+		
+		var jsonData = '{code:"3f3f3b5a92db4d1ea7467d1750a3d698", grade: "高一"}';
+			  
+			 
+			
+		 $.getJSON('http://123.56.141.214:38081/iwrong-service-v3/api/find/single-answer.json',{code:"3f3f3b5a92db4d1ea7467d1750a3d698", grade: "高一"}, function(json){
+			 
+			 alert(JSON.stringify(json) );
+		 })
+		 
+	}
+	
+	
+	
+	
+</script>
+</head>
+<body>
+	<h1>json添加用户</h1>
+	姓名：<input id="userName" type="text" name="userName"> <br>
+	年龄:<input id="age" type="text" name="age">
+	<br>
+	<input type="button" id="resolveJsonObject" value="json对象">
+	<input type="button" id="resolveJsonArray" value="json数组">
+	<input type="button" id="resolveJson" value="前端解析json字符串">
+	
+	<button onclick="CallBack();">test</button>
+</body>
+</html>
