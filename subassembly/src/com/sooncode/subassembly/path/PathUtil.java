@@ -1,21 +1,17 @@
 package com.sooncode.subassembly.path;
 
+import java.io.File;
+
 public class PathUtil {
-	private static String src;
-	private static String webRoot;
 
 	public static String getSrc() {
-		src = Thread.currentThread().getContextClassLoader().getResource("/").getPath() + "";
-		return src;
+		return new PathUtil().getClassesPath();
 	}
 
-	public static String getWebRoot() {
-		webRoot = System.getProperty("goodstudent.root");
-		return webRoot;
+	private String getClassesPath() {
+		String path = this.getClass().getResource("/").getPath();
+		File file = new File(path);
+		String classesPath = file.toString() + File.separatorChar;
+		return classesPath;
 	}
-	
-	public static void main(String[] args) {
-		getSrc();
-	}
-
 }
