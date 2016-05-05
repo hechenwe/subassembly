@@ -1,8 +1,6 @@
 package com.sooncode.subassembly.properties;
 
- 
 
-import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,8 +24,21 @@ public class PropertiesUtil {
 	 */
 	private String filePath;
 
+	private Properties properties;
+
 	public PropertiesUtil(String filePath) {
 		this.filePath = filePath;
+		properties = new Properties();
+		InputStreamReader in;
+		FileInputStream fileInputStream ;
+		try {
+			fileInputStream = new FileInputStream(this.filePath);
+			
+			in = new InputStreamReader(fileInputStream, "utf-8");
+			properties.load(in);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -41,17 +52,10 @@ public class PropertiesUtil {
 	 * @return 值
 	 */
 	public String getString(String key) {
-		Properties p = new Properties();
-		try {
-			InputStreamReader in = new InputStreamReader(new FileInputStream(this.filePath), "utf-8");
-			p.load(in);
-			String value = p.getProperty(key);
-			return value.trim();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		String value = this.properties.getProperty(key);
+		return value.trim();
+
 	}
 
 	/**
@@ -65,43 +69,30 @@ public class PropertiesUtil {
 	 * 
 	 * @return int
 	 */
-	public Integer getInt(String key) {
-		Properties properties = new Properties();
-		try {
-			InputStream in = new BufferedInputStream(new FileInputStream(this.filePath));
-			properties.load(in);
-			String value = properties.getProperty(key);
-			Integer val = Integer.parseInt(value.trim());
-			return val;
+	public Integer getInteger(String key) {
 
-		} catch (Exception e) {
+		String value = this.properties.getProperty(key);
+		Integer val = Integer.parseInt(value.trim());
+		return val;
 
-			return null;
-		}
 	}
 
 	/**
-	 *  读取Properties的全部信息
+	 * 读取Properties的全部信息
+	 * 
 	 * @return
 	 */
-	public  Map<String, String> getKeyAndValue(){
-		Properties pps = new Properties();
-		InputStream in;
-		try {
-			in = new BufferedInputStream(new FileInputStream(this.filePath));
-			pps.load(in);
-			Enumeration<?> en = pps.propertyNames(); // 得到配置文件的名字
-			Map<String, String> map = new HashMap<>();
-			while (en.hasMoreElements()) {
-				String strKey = (String) en.nextElement();
-				String strValue = pps.getProperty(strKey);
-				map.put(strKey, strValue);
-			}
-			return map;
-		} catch ( Exception e) { 
-			e.printStackTrace();
-			return null;
+	public Map<String, String> getKeyAndValue() {
+
+		Enumeration<?> en = this.properties.propertyNames(); // 得到配置文件的名字
+		Map<String, String> map = new HashMap<>();
+		while (en.hasMoreElements()) {
+			String strKey = (String) en.nextElement();
+			String strValue = this.properties.getProperty(strKey);
+			map.put(strKey, strValue);
 		}
+		return map;
+
 	}
 
 	// 写入Properties信息
