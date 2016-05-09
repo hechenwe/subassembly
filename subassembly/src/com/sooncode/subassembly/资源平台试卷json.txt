@@ -1,0 +1,87 @@
+{
+    "examName": "高考化学诊断试卷5",
+    "grade": "高三",
+    "subject": "化学",
+    "bookType": "人教版",
+    "totalScore": 100,
+    "examTime": 60,
+    "questions": [
+        {
+            "id": 220522,
+            "code": "ab4d55017e2546c0905981e150b8f912",
+            "createAt": 1449537810020,
+            "update_at": 1449537810022,
+            "title": "GKH3973",
+            "stem": "下列物质的用途中利用了氧化还原反应原理的是（&nbsp;&nbsp;&nbsp;）",
+            "option": "[{\"optionKey\":\"A\",\"optionValue\":\"用明矾净水\"},{\"optionKey\":\"B\",\"optionValue\":\"用“84消毒液”消毒\"},{\"optionKey\":\"C\",\"optionValue\":\"胶体的提纯\"},{\"optionKey\":\"D\",\"optionValue\":\"用小苏打治疗胃酸过多\"}]",
+            "analyze": "[{\"analyzeKey\":\"A\",\"analyzeValue\":\"明矾做净水剂，弱碱根铝离子水解产生http://iwrong.b0.upaiyun.com/resources_v3/GKH3961/14479832513339614688.png胶体能够吸附杂质，为物理性质，选项不符合题意\"},{\"analyzeKey\":\"B\",\"analyzeValue\":\"84消毒液的主要成分是次氯酸钠，具有氧化性，消毒是利用了其强氧化性，属于氧化还原反应原理，故选项符合题意\"},{\"analyzeKey\":\"C\",\"analyzeValue\":\"胶体的提纯，一般用渗析的方法，不属于氧化还原反应，选项不符合题意\"},{\"analyzeKey\":\"D\",\"analyzeValue\":\"小苏打的主要成分为碳酸氢钠，碳酸氢钠属于抗酸药，能中和胃里过多的盐酸，缓解胃部不适。选项不符合题意\"}]",
+            "knowledges": "物质的组成和性质@常见金属元素及其化合物@常见非金属元素及其化合物@有机化学基础",
+            "productions": "胶体的应用@生活中的化学@氯及其化合物的特性@人工合成药物",
+            "answer": "B",
+            "star": 1,
+            "audio": "http://cuotiben-mp3.qiniudn.com/GKH3973.mp3",
+            "source": "web",
+            "isCompleted": 4,
+            "type": 5,
+            "grade": "高三",
+            "subject": "化学",
+            "selfLabelNodes": [
+                {
+                    "code": "b7f695f9c6a648a7a56f9e63c34dda02",
+                    "name": "科学探究过程",
+                    "typeCode": "19eec",
+                    "typeName": "事实(F)",
+                    "parentCode": "bc92894d5ecb4ec8949fc441d0a63359",
+                    "isSelfLabel": "1"
+                },
+                {
+                    "code": "f10b0d5622764949945642afcd20d93c",
+                    "name": "化学科学研究范畴",
+                    "typeCode": "19eec",
+                    "typeName": "事实(F)",
+                    "parentCode": "bc92894d5ecb4ec8949fc441d0a63359",
+                    "isSelfLabel": "1"
+                }
+            ]
+        },
+        {
+            "id": 216969,
+            "code": "4c130aec48f14091b68a1c9ec9dc5884",
+            "createAt": 1448847974998,
+            "update_at": 1448847974999,
+            "title": "GKH2239",
+            "stem": "NM-3和D-58是正处于临床试验阶段的小分子抗癌药物，结构如下：关于NM-3和D-58的叙述，错误的是（）http://iwrong.b0.upaiyun.com/resources_v3/GKH2220/14479243836252172840.png",
+            "option": "[{\"optionKey\":\"A\",\"optionValue\":\"都能与NaOH溶液反应，原因不完全相同\"},{\"optionKey\":\"B\",\"optionValue\":\"都能与溴水反应，原因不完全相同\"},{\"optionKey\":\"C\",\"optionValue\":\"都不能发生消去反应，原因相同\"},{\"optionKey\":\"D\",\"optionValue\":\"遇http://iwrong.b0.upaiyun.com/resources_v3/GKH2220/14479243837814586155.png溶液都显色，原因相同\"}]",
+            "analyze": "[{\"analyzeKey\":\"A\",\"analyzeValue\":\"NM-3与NaOH溶液反应是因为含有酯基、羧基和酚羟基，D-58与NaOH溶液反应是因为含有酚羟基，选项不符合题意\"},{\"analyzeKey\":\"B\",\"analyzeValue\":\"NM-3与溴水反应是因为含有碳碳双键和酚羟基，D-58与溴水反应是因为含有酚羟基，选项不符合题意\"},{\"analyzeKey\":\"C\",\"analyzeValue\":\"NM-3不能发生消去反应是因为不含醇羟基，D-58不能发生消去反应是因为与醇羟基所连碳原子的相邻碳原子上没有氢原子，故此选项符合题意\"},{\"analyzeKey\":\"D\",\"analyzeValue\":\"遇http://iwrong.b0.upaiyun.com/resources_v3/GKH2220/14479243837814586155.png溶液发生显色反应是因为两种有机物均含有酚羟基，选项不符合题意\"}]",
+            "knowledges": "有机化学基础",
+            "productions": "液溴、溴水等与烃类的反应@发生消去反应的小结@有机物中的特殊反应",
+            "answer": "C",
+            "star": 2,
+            "audio": "http://cuotiben-mp3.qiniudn.com/GKH2239.mp3",
+            "source": "web",
+            "isCompleted": 4,
+            "type": 5,
+            "grade": "高三",
+            "subject": "化学",
+            "selfLabelNodes": [
+                {
+                    "code": "b7f695f9c6a648a7a56f9e63c34dda02",
+                    "name": "科学探究过程",
+                    "typeCode": "19eec",
+                    "typeName": "事实(F)",
+                    "parentCode": "bc92894d5ecb4ec8949fc441d0a63359",
+                    "isSelfLabel": "1"
+                },
+                {
+                    "code": "f10b0d5622764949945642afcd20d93c",
+                    "name": "化学科学研究范畴",
+                    "typeCode": "19eec",
+                    "typeName": "事实(F)",
+                    "parentCode": "bc92894d5ecb4ec8949fc441d0a63359",
+                    "isSelfLabel": "1"
+                }
+            ]
+        }
+    ],
+    "scores": 100
+}
