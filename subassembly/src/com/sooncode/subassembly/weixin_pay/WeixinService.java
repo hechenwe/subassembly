@@ -9,8 +9,6 @@ import com.sooncode.subassembly.weixin_pay.module.UnifiedOrderReturn;
 
 import java.util.Map.Entry;
 
- 
-
 /**
  * 微信支付 服务
  * 
@@ -123,11 +121,11 @@ public class WeixinService {
 			or.setAppid(px.getValue("appid"));
 			or.setOut_trade_no(px.getValue("out_trade_no"));
 			or.setTrade_state(px.getValue("trade_state"));
-			
+
 			or.setTrade_state_desc(px.getValue("trade_state_desc"));
 			or.setNonce_str(px.getValue("nonce_str"));
 			or.setReturn_msg(px.getValue("return_msg"));
-			
+
 			or.setMch_id(px.getValue("mch_id"));
 			or.setSign(px.getValue("sign"));
 		}
@@ -137,28 +135,36 @@ public class WeixinService {
 	public static void main(String[] args) {
 
 		UnifiedOrder u = new UnifiedOrder();
-		u.setAppid("wxfd22896c1e4be407");
-		u.setMch_id("1335354601");
-		u.setKey("yjkjhaoxueshenggaozhong201604270");
+		// u.setAppid("wxfd22896c1e4be407");
+		// u.setMch_id("1335354601");
+		// u.setKey("yjkjhaoxueshenggaozhong201604270");
+		/**
+		 * gaozhong_appid=wxaee30ebf9c051311 gaozhong_partnerid=1359539702
+		 * gaozhong_partnerKey=yjkjyijiajiaoxiaochugao201606280
+		 * 
+		 */
+		u.setAppid("wxaee30ebf9c051311");
+		u.setMch_id("1359539702");
+		u.setKey("yjkjyijiajiaoxiaochugao201606280");
 
 		u.setBody("诊断报告");
 		u.setNotify_url("http://220.249.22.170:8080/fighting/weixin/notify");
-		u.setOut_trade_no("20160504132625000001");
+		u.setOut_trade_no("20160504132625000002");
 
 		u.setNonce_str(WeixinUtil.getUUID());
 		u.setSpbill_create_ip("220.249.22.170");
 		u.setTotal_fee("1");
 		u.setTrade_type("APP");
 
-		// System.out.println("WeixinService.main()"+unifiedorder(u));
+		System.out.println("WeixinService.main()" + unifiedorder(u));
 
 		Orderquery o = new Orderquery();
-		o.setAppid("wxfd22896c1e4be407");
-		o.setKey("yjkjhaoxueshenggaozhong201604270");
-		o.setMch_id("1335354601");
+		o.setAppid("wxaee30ebf9c051311");
+		o.setKey("yjkjyijiajiaoxiaochugao201606280");
+		o.setMch_id("1359539702");
 		o.setNonce_str(WeixinUtil.getUUID());
-		o.setOut_trade_no("20160504132625000001");
-		orderquery(o);
+		o.setOut_trade_no("20160504132625000002");
+		OrderqueryReturn or = orderquery(o);
 
 	}
 

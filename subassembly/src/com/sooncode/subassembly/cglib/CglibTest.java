@@ -11,11 +11,11 @@ import java.util.HashMap;
  */
 public class CglibTest {
 
-	@SuppressWarnings("unchecked")
+	 
 	public static void main(String[] args) throws ClassNotFoundException {
 
 		// 设置类成员属性
-		HashMap propertyMap = new HashMap();
+		HashMap<String,Class<?>> propertyMap = new HashMap<>();
 
 		propertyMap.put("id", Class.forName("java.lang.Integer"));
 
@@ -24,7 +24,7 @@ public class CglibTest {
 		propertyMap.put("address", Class.forName("java.lang.String"));
 
 		// 生成动态 Bean
-		CglibUtil bean = new CglibUtil(propertyMap);
+		Cglib bean = new Cglib(propertyMap);
 
 		// 给 Bean 设置值
 		bean.setValue("id", new Integer(123));
@@ -45,7 +45,7 @@ public class CglibTest {
 		Object object = bean.getObject();
 
 		// 通过反射查看所有方法名
-		Class clazz = object.getClass();
+		Class<?> clazz = object.getClass();
 		System.out.println("CglibTest.main()"+clazz.getName());
 		Method[] methods = clazz.getDeclaredMethods();
 		for (int i = 0; i < methods.length; i++) {

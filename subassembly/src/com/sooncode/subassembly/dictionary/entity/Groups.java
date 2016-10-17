@@ -3,13 +3,13 @@ package com.sooncode.subassembly.dictionary.entity;
  
 import java.util.Date;
 
-import net.sf.json.JSONObject;
+ 
  
  
 /**
  *  数据字典分组 
  * 
- *  @author 代码生成器 
+ *  @author Hechen 
  *
  */
  
@@ -33,6 +33,8 @@ public class Groups implements java.io.Serializable{
     
     /**组状态*/
     private Integer groupState; 
+    
+    
     /**创建时间*/
     private Date createDate;
      
@@ -98,15 +100,7 @@ public class Groups implements java.io.Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	@Override
-	public String toString() {
-		
-		
-		
-		
-		
-		return  JSONObject.fromObject(this).toString();
-	}
+	 
 	 
  
 

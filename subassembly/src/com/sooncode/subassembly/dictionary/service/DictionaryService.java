@@ -1,12 +1,10 @@
 package com.sooncode.subassembly.dictionary.service;
 
 import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
-
 import com.sooncode.subassembly.dictionary.entity.Dictionary;
-import com.sooncode.subassembly.dictionary.util.Cache;
+import com.sooncode.subassembly.dictionary.entity.Groups;
+
 
 /**
  * 数据字典服务类
@@ -14,62 +12,57 @@ import com.sooncode.subassembly.dictionary.util.Cache;
  * @author pc
  *
  */
-public class DictionaryService {
+public class DictionaryService implements DictionaryServiceI {
 	
 	public final static Logger logger = Logger.getLogger("GroupDao.class");
 
-	/**
-	 * 获取组内是所用数据项
-	 * 
-	 * @param groupCode
-	 *            组代码
-	 * @return 字典信息集合
-	 */
-	public static List<Dictionary> selectGroupDictionaries(String groupCode) {
-		Map<String, List<Dictionary>> dictionariesCache = Cache.dictionariesCache;
-		List<Dictionary> dictionaries = dictionariesCache.get(groupCode);
-		if (dictionaries == null) { // 内存里没有缓存
-			Cache.updateDictioanaryCache(groupCode);
-			dictionaries = dictionariesCache.get(groupCode);//再获取一次
-		} else {
-			Cache.updateDictionaryCacheMess(groupCode);
-		}
-
-		return dictionaries;
-
+	@Override
+	public Boolean addDictionaryGroups(Groups groups) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/**
-	 * 获取数据字典
-	 * 
-	 * @param groupCode
-	 *            组代码
-	 * @param dictionaryCode
-	 *            字典代码
-	 * @return 字典信息
-	 */
-	public static Dictionary selectDictionary(String groupCode, String dictionaryCode) {
-		Map<String, List<Dictionary>> dictionariesCache = Cache.dictionariesCache;
-		List<Dictionary> dictionaries = dictionariesCache.get(groupCode);
-		if (dictionaries == null) { // 内存里没有缓存
-			Cache.updateDictioanaryCache(groupCode);
-			dictionaries = dictionariesCache.get(groupCode);//再获取一次
-		} else {
-			Cache.updateDictionaryCacheMess(groupCode);
-		}
-		Dictionary dictionary = null;
-		for (Dictionary d : dictionaries) {
-			if (d.getDictionaryCode().equals(dictionaryCode)) {
-				dictionary = d;
-				break;
-			}
-		}
-		return dictionary;
+	@Override
+	public Boolean updateDictionaryGroups(Groups groups) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public static void main(String[] args) {
-		 logger.info(selectGroupDictionaries("userType"));
-	     logger.info(selectDictionary("userType","1"));
-
+	@Override
+	public Boolean removeDictionaryGroups(String groupCode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public Boolean addDictionary(Dictionary dictionary) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean updateDictionary(Dictionary dictionary) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean removeDictionary(Integer dictionaryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Dictionary> getDictionaries(String groupCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Dictionary getDictionary(String groupCode, String dictionaryCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	 
 }

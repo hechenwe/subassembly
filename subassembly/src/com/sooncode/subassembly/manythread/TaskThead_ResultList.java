@@ -1,8 +1,6 @@
 package com.sooncode.subassembly.manythread;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -10,7 +8,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import javax.swing.text.StyledEditorKit.StyledTextAction;
 
 /**
  * 任务线程 返回值为list

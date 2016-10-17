@@ -15,7 +15,7 @@ public class PathUtil {
     	classes= new PathUtil().getPath();
     }
 	public static String getClassPath() {
-		System.out.println("【classes路径】"+classes);
+		//System.out.println("【classes路径】"+classes);
 		return classes;
 
 	}

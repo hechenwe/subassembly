@@ -1,11 +1,12 @@
 package com.sooncode.subassembly.other;
 
+ 
 import java.util.Map;
 
 import com.sooncode.subassembly.reflect.RObject;
 
 /**
- * 参数验证 工具类
+ * 非空验证  工具类
  * 
  * @author pc
  *
@@ -32,6 +33,31 @@ public class ParameterUtil {
 
 		return bool;
 
+	}
+	
+	
+	/**
+	 * 验证字符串 参数
+	 * 
+	 * @param a
+	 * @param agrs
+	 * @return 当参数中存在空(null)参数; 空字符串("") 时返回false ,否则返回true.
+	 */
+	public static boolean isNotNullOrNotNul(Object ... objs) {
+		 
+		for (int i = 0; i < objs.length; i++) {
+			if (objs[i] == null) {
+				 
+				return false;
+			}else{
+				String className = objs[i].getClass().getName();
+				if(className.equals("java.lang.String")&&"".equals(objs[i].toString())){
+					 return false;
+				}
+			}
+		}
+		return true;
+		
 	}
 
 	/**
@@ -81,14 +107,14 @@ public class ParameterUtil {
 			return true;
 		}
 	}
+	
+	 
 	public static void main(String[] args) {
 		String a = "";
 		String b = "a";
 		String c = null;
 		Integer d = 1;
-		System.out.println(verifiObject(a, b,d));
-		System.out.println(verifiObject(a, b, c));
-		System.out.println(verifiObject(a));
-		System.out.println(verifiObject(a, d));
+		System.out.println(isNotNullOrNotNul(c,b,d));
+	 
 	}
 }

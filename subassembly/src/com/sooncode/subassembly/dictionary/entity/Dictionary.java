@@ -1,13 +1,12 @@
 package com.sooncode.subassembly.dictionary.entity;
 
 import java.util.Date;
-
-import net.sf.json.JSONObject;
+ 
 
 /**
- *  数据字典 
+ *  数据字典数据项
  * 
- *  @author 代码生成器 
+ *  @author Hechen
  *
  */
  
@@ -112,14 +111,7 @@ public class Dictionary implements java.io.Serializable{
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	@Override
-	public String toString() {
-		
-		
-		
-		
-		return  JSONObject.fromObject(this).toString();
-	}
+	 
 	 
 	
  

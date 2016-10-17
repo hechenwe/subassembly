@@ -6,8 +6,12 @@ import java.util.Set;
 
 import net.sf.cglib.beans.BeanGenerator;
 import net.sf.cglib.beans.BeanMap;
-
-public class CglibUtil {
+/**
+ * 动态创建类
+ * @author pc
+ *
+ */
+public class Cglib {
 	/**  
      * 实体Object  
      */    
@@ -18,15 +22,24 @@ public class CglibUtil {
      */    
    public BeanMap beanMap = null;    
        
-   public CglibUtil() {    
+   public Cglib() {    
      super();    
    }    
        
-   @SuppressWarnings("unchecked")    
-   public CglibUtil(Map propertyMap) {    
+   
+   public Cglib(Map<String,Class<?>> propertyMap) {    
      this.object = generateBean(propertyMap);    
      this.beanMap = BeanMap.create(this.object);    
    }    
+   
+   public Cglib(String jsonData){
+	   
+	   
+	   
+	   
+	   
+	   
+   }
        
    /**  
      * 给bean属性赋值  
@@ -54,13 +67,13 @@ public class CglibUtil {
      return this.object;    
    }    
        
-   @SuppressWarnings("unchecked")    
-   private Object generateBean(Map propertyMap) {    
+       
+   private Object generateBean(Map<String,Class<?>> propertyMap) {    
      BeanGenerator generator = new BeanGenerator();    
-     Set keySet = propertyMap.keySet();    
-     for (Iterator i = keySet.iterator(); i.hasNext();) {    
+     Set<?> keySet = propertyMap.keySet();    
+     for (Iterator<?> i = keySet.iterator(); i.hasNext();) {    
       String key = (String) i.next();    
-      generator.addProperty(key, (Class) propertyMap.get(key));    
+      generator.addProperty(key, (Class<?>) propertyMap.get(key));    
      }    
      return generator.create();    
    }    

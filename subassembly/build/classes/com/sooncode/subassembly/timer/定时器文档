@@ -41,6 +41,10 @@ spring 定时器
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+
+
+
+*******************************************************************************************************************************************
 二 注释方式 实现 
 1.applicationContext.xml 添加 :
     (1) xmlns:task="http://www.springframework.org/schema/task 
