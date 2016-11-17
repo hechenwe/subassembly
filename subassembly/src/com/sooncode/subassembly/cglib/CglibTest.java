@@ -51,5 +51,17 @@ public class CglibTest {
 		for (int i = 0; i < methods.length; i++) {
 			System.out.println(methods[i].getName());
 		}
+		
+		Object obj;
+		try {
+			obj = clazz.newInstance();
+			System.out.println(obj);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
