@@ -9,7 +9,7 @@ public class Arrays {
 		 arrays.add(array); 
 	 }
 	 public void add(String arrayKey,Parameteres parameters){
-		 Array a = new Array(arrayKey, parameters);
+		 Array a = new Array();
 		 arrays.add(a); 
 	 }
 	public List<Array> getArrays() {

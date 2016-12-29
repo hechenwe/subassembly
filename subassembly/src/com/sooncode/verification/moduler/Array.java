@@ -10,23 +10,20 @@ import java.util.List;
  */
 public class Array {
 	/** 数组 KEY */
-	private String arrayKey;
+	private String key;
 
 	private List<Parameter> parameters;
- 
-	
-	public Array(String arrayKey,Parameteres parameters){
-		this.arrayKey = arrayKey;
-		this.parameters = parameters.getPes();
-	}
-	
-	
-	public String getArrayKey() {
-		return arrayKey;
+  
+	 
+
+
+	public String getKey() {
+		return key;
 	}
 
-	public void setArrayKey(String arrayKey) {
-		this.arrayKey = arrayKey;
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 
@@ -37,6 +34,11 @@ public class Array {
 
 	public void setParameters(List<Parameter> parameters) {
 		this.parameters = parameters;
+	}
+
+	@Override
+	public String toString() {
+		return "{\"key\":\"" + key + "\",\"parameters\":\"" + parameters + "\"}  ";
 	}
  
 	

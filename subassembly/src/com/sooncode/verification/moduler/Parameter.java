@@ -1,6 +1,5 @@
 package com.sooncode.verification.moduler;
-
-import com.sooncode.verification.enumes.DataType;
+ 
 
 /**
  * 参数 模型
@@ -18,39 +17,16 @@ import com.sooncode.verification.enumes.DataType;
 	private Integer maxLength;
 	
 	/**是否必须*/
-	private Boolean isNeed;
+	//private Boolean isNeed;
 	
 	/**值域*/
-	private Object[] values;
+	private String enumeration;
 
-	/**
-	 * 参数
-	 * @param key 参数名称
-	 * @param type 测试类型
-	 * @param maxLength 最大长度
-	 * @param values 参数值域
-	 */
-	public Parameter(String key,String type,Integer maxLength, Object[] values){
-	this.key = key ;
-	this.type = type;
-	this.maxLength = maxLength;
-	this.isNeed = true;
-	this.values=values;
+	public Parameter(){
+		
 	}
-	/**
-	 * 参数
-	 * @param key 参数名称
-	 * @param type 测试类型
-	 * @param maxLength 最大长度
-	 * @param values 参数值域
-	 */
-	public Parameter(String key,DataType type,Integer maxLength, Object[] values){
-		this.key = key ;
-		this.type = type.name();
-		this.maxLength = maxLength;
-		this.isNeed = true;
-		this.values=values;
-	}
+	
+	 
 	
 	
 	 
@@ -82,24 +58,32 @@ import com.sooncode.verification.enumes.DataType;
 	}
 
 
-	public Boolean getIsNeed() {
-		return isNeed;
+
+
+
+	public String getEnumeration() {
+		return enumeration;
 	}
 
 
-	public void setIsNeed(Boolean isNeed) {
-		this.isNeed = isNeed;
+
+
+
+	public void setEnumeration(String enumeration) {
+		this.enumeration = enumeration;
 	}
 
 
-	public Object[] getValues() {
-		return values;
-	}
 
 
-	public void setValues(String[] values) {
-		this.values = values;
+
+	@Override
+	public String toString() {
+		return "{\"key\":\"" + key + "\",\"type\":\"" + type + "\",\"maxLength\":\"" + maxLength + "\",\"enumeration\":\"" + enumeration + "\"}  ";
 	}
+ 
+
+	
 
 
 	 

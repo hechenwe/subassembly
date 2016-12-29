@@ -23,8 +23,8 @@ public class Parameteres{
 	 * @param values 参数值域
 	 */
 	public Parameteres add(String key,String type,Integer maxLength, Object[] values){
-		Parameter p = new Parameter(key, type, maxLength, values);
-		pes.add(p);
+		/*Parameter p = new Parameter(key, type, maxLength, values);
+		pes.add(p);*/
 		return this;
 	}
 	/**
@@ -35,8 +35,8 @@ public class Parameteres{
 	 * @param values 参数值域
 	 */
 	public Parameteres add(String key,DataType type,Integer maxLength, Object[] values){
-		Parameter p = new Parameter(key, type, maxLength, values);
-		pes.add(p);
+		/*Parameter p = new Parameter(key, type, maxLength, values);
+		pes.add(p);*/
 		return this;
 	}
 	public List<Parameter> getPes() {
