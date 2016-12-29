@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<controllers>
+
+	<parameter key="pageNumber" type="INTEGER" maxLength="11"></parameter>
+	<parameter key="pageSize" type="INTEGER" maxLength="11"></parameter>
+	<parameter key="name" type="STRING" maxLength="32" enumeration="AAAA;BBB"></parameter>
+		
+	<controller url="monitoring/getMonCourseMonitoring" method="POST">
+		<parameter key="id" type="STRING" maxLength="64"></parameter>
+		<parameter ref="pageNumber"></parameter>
+		<parameter ref="pageSize"></parameter>
+		<array key="persons">
+			<parameter key="name" type="STRING" maxLength="32" enumeration="AAA;BBB"></parameter>
+		</array>
+	</controller>
+
+
+
+
+
+</controllers>
