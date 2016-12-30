@@ -1,0 +1,6 @@
+接口参数验证模块 设计文档
+
+使用 ：
+
+      
+    VerificationResult vr = VerificationService.verificationInterface(request, i);
