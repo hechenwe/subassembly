@@ -1,5 +1,8 @@
 package com.sooncode.subassembly.reflect;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 测试反射 用到的类
  * 
@@ -7,52 +10,66 @@ package com.sooncode.subassembly.reflect;
  *
  */
 public class Persion {
+	private String name;
+	private int age;
+	
+	private List<String> adress;
+	
+	private Map<String,String> map;
+	
 	public Persion() {
 
 	}
 
-	public Persion(String name) {
-		this.name = name;
-	}
 
-	public Persion(Integer age) {
-		this.age = age;
-	}
-
-	public Persion(String name, Integer age) {
-		this.age = age;
-		this.name = name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Integer getAge() {
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public int getAge() {
 		return age;
 	}
 
-	@Override
-	public String toString() {
-		return "[" + this.name + "  " + this.age + "]";
+
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
-	private String name;
-	private int age;
 
-	public static Integer add(Integer a, Integer b) {
-		return a + b;
+
+	public List<String> getAdress() {
+		return adress;
 	}
 
-	public String getSum(Integer a, String b) {
-		return b + ":" + a;
+
+
+	public void setAdress(List<String> adress) {
+		this.adress = adress;
 	}
+
+
+
+	public Map<String, String> getMap() {
+		return map;
+	}
+
+
+
+	public void setMap(Map<String, String> map) {
+		this.map = map;
+	}
+
+	
+	 
+	 
 }
