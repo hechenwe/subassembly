@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,23 +23,18 @@ public class RObject {
 	public static Logger logger = Logger.getLogger("RObject.class");
 	private static final String NULL_STR = "";
 	private static final String CLASS = "class ";
-
-	private Map<String, Field> fieldMap = new HashMap<>();
-	private List<Field> fields;
+	 
 
 	/** 被反射代理的对象 */
 	private Object object;
 
 	public <T> RObject(T object) {
 		this.object = object;
-		this.initFields();
 	}
 
 	public RObject(Class<?> clas) {
-
 		try {
 			this.object = clas.newInstance();
-			this.initFields();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,7 +45,7 @@ public class RObject {
 		try {
 			clas = Class.forName(className);
 			this.object = clas.newInstance();
-			this.initFields();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,7 +57,7 @@ public class RObject {
 	}
 
 	/** 获取对象的全类名 */
-	public String getClassName() {
+	public String getName() {
 		return this.object.getClass().getName();
 	}
 
@@ -73,39 +69,26 @@ public class RObject {
 	}
 
 	/**
-	 * 
-	 * 初始化代理对象的属性
+	 * 获取被反射代理对象的属性集
 	 * 
 	 * @return
 	 */
-	public void initFields() {
+	public List<Field> getFields() {
 		List<Field> list = new ArrayList<>();
-
 		Class<?> thisClass = this.object.getClass();
-
-		for (; thisClass != Object.class; thisClass = thisClass.getSuperclass()) {
-
-			Field[] fields = thisClass.getDeclaredFields();
-
-			if (thisClass == this.object.getClass()) {
-				for (Field field : fields) {
-					list.add(field);
-					this.fieldMap.put(field.getName(), field);
-				}
-
-			} else {
-				for (Field field : fields) {
-					int i = field.getModifiers();
+		List<Field> thisFields = Arrays.asList(thisClass.getDeclaredFields());
+		list.addAll(thisFields);
+		for ( Class<?> tempClass = thisClass.getSuperclass(); tempClass != Object.class; tempClass = tempClass.getSuperclass()) {
+			Field[] fields = tempClass.getDeclaredFields();
+				for (Field f : fields) {
+					int i = f.getModifiers();
 					boolean isPrivate = Modifier.isPrivate(i);
 					if (isPrivate == false) {
-						list.add(field);
-						this.fieldMap.put(field.getName(), field);
+						list.add(f);
 					}
 				}
-			}
 		}
-		this.fields = list;
-
+		return list;
 	}
 
 	/**
@@ -115,35 +98,38 @@ public class RObject {
 	 * @return
 	 */
 	public Boolean hasField(String fieldName) {
-
 		if (fieldName == null || fieldName.equals(NULL_STR)) {
 			return false;
 		}
-		Field f = this.fieldMap.get(fieldName);
-
-		return f == null ? false : true;
+		
+		List<Field> fields = this.getFields();
+		for (Field f : fields) {
+			if (f.getName().equals(fieldName.trim())) {
+				return true;
+			}
+		}
+		return false;
 
 	}
 
 	/**
 	 * 获取 list 类型的属性名称
 	 * 
-	 * @param parameterizedType
-	 *            属性的参数类型Class
-	 * 
-	 * @return 属性集
+	 * @param listClass
+	 *            list的数据类型
+	 * @return 属性名称
 	 */
-	public List<Field> getFields(Class<?> parameterizedType) {
-
-		for (Field f : this.fields) {
-			Class<?> fClass = f.getType();
-			if (fClass == parameterizedType) {
+	public String getListFieldName(Class<?> listClass) {
+		List<Field> fields = getFields();
+		for (Field f : fields) {
+			Class<?> type = f.getType();
+			if (type.getName().equals(List.class.getName())) {
 				ParameterizedType pt = (ParameterizedType) f.getGenericType();
 				String str = pt.getActualTypeArguments()[0].toString(); // 获取List泛型参数类型名称
 				str = str.replace(CLASS, NULL_STR).trim();// 全类名
-				// if (str.equals(listClass.getName())) {
-				// return f.getName();
-				// }
+				if (str.equals(listClass.getName())) {
+					return f.getName();
+				}
 			}
 		}
 		return null;
@@ -159,11 +145,10 @@ public class RObject {
 		PropertyDescriptor pd;
 		try {
 			pd = new PropertyDescriptor(fieldName, this.object.getClass());
-			// 获得set方法
 			Method method = pd.getWriteMethod();
-			method.invoke(object, args);
+			method.invoke(this.object, args);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -182,7 +167,7 @@ public class RObject {
 			Class<?>[] c = method.getParameterTypes();
 			return c[0];
 		} catch (IntrospectionException e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 
@@ -205,7 +190,7 @@ public class RObject {
 			T t = (T) method.invoke(this.object);
 			return t;
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 
@@ -213,15 +198,15 @@ public class RObject {
 
 	/** 获取对象的属性和其对应的值 */
 	public Map<String, Object> getFiledAndValue() {
-
 		Map<String, Object> map = new HashMap<>();
 		List<Field> fields = this.getFields();
 		for (Field field : fields) {
 			String name = field.getName().replace("$cglib_prop_", "");
-			map.put(name, this.invokeGetMethod(name));
+				map.put(name, this.invokeGetMethod(name));
 		}
 		return map;
 	}
+ 
 
 	/**
 	 * 反射执行方法
@@ -234,14 +219,8 @@ public class RObject {
 	 */
 
 	public <T> T invoke(String methodName, Object... args) {
+		Method method =  getDeclaredMethod (methodName);
 		try {
-			Method method = null;
-			for (Class<?> clazz = object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
-				try {
-					method = clazz.getDeclaredMethod(methodName, new Object().getClass());
-				} catch (Exception e) {
-				}
-			}
 			@SuppressWarnings("unchecked")
 			T t = (T) method.invoke(object, args);
 			return t;
@@ -250,21 +229,38 @@ public class RObject {
 			return null;
 		}
 	}
-
-	public static Method getDeclaredMethod(Object object, String methodName) {
-		Method method = null;
-		for (Class<?> clazz = object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
-			try {
-				method = clazz.getDeclaredMethod(methodName);
+    /**
+     * 获取类的方法
+     * @param object
+     * @param methodName
+     * @return
+     */
+	public Method getDeclaredMethod(String methodName) {
+		List<Method> list =  getDeclaredMethods();
+		for (Method method : list) {
+			if(method.getName().equals(methodName)){
 				return method;
-			} catch (Exception e) {
 			}
 		}
 		return null;
 	}
-
-	public List<Field> getFields() {
-		return fields;
+	
+	/**
+	 * 获取类的方法
+	 * @return 方法集
+	 */
+	public  List<Method> getDeclaredMethods() {
+		List<Method>  methods = new ArrayList<>();
+		for (Class<?> tempClass = this.object.getClass(); tempClass != Object.class; tempClass = tempClass.getSuperclass()) {
+			try {
+				List<Method> list  = Arrays.asList(tempClass.getDeclaredMethods());
+				methods.addAll(list);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return methods;
 	}
 
+	 
 }
