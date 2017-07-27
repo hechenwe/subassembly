@@ -7,108 +7,112 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+import java.util.Map.Entry;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 反射创建的对象
  * 
- * @author pc
+ * @author hechenwe@gmail.com
  *
  */
-public class RObject {
-	public static Logger logger = Logger.getLogger("RObject.class");
+public class RObject<T> {
+
+	public final static Log logger = LogFactory.getLog(RObject.class);
 	private static final String NULL_STR = "";
 	private static final String CLASS = "class ";
-	 
+	private static final String LIST_INTERFACE = "interface java.util.List";
+	private static final String JAVA_TYPES = "Integer Long Short Byte Float Double Character Boolean Date String";
+	private static final String UID = "serialVersionUID";
 
 	/** 被反射代理的对象 */
-	private Object object;
+	private T object;
 
-	public <T> RObject(T object) {
+	private Map<String, Field> fields;
+
+	public RObject(T object) {
 		this.object = object;
+		init();
 	}
 
-	public RObject(Class<?> clas) {
+	public RObject(Class<T> clas) {
 		try {
-			this.object = clas.newInstance();
+			this.object = (T) clas.newInstance();
+			init();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public RObject(String className) {
-		Class<?> clas;
+		Class<T> clas;
 		try {
-			clas = Class.forName(className);
+			clas = (Class<T>) Class.forName(className);
 			this.object = clas.newInstance();
-
+			init();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/** 获取对象的类名 */
-	public String getSimpleName() {
-		return this.object.getClass().getSimpleName();
-	}
-
-	/** 获取对象的全类名 */
-	public String getName() {
-		return this.object.getClass().getName();
 	}
 
 	/** 获取被反射代理的对象 */
-	public <T> T getObject() {
-		@SuppressWarnings("unchecked")
-		T t = (T) object;
-		return t;
+	public T getObject() {
+		return object;
 	}
 
 	/**
-	 * 获取被反射代理对象的属性集
+	 * 获取被反射代理对象的属性集(除serialVersionUID属性外) 包括父类的属性
 	 * 
 	 * @return
 	 */
 	public List<Field> getFields() {
-		List<Field> list = new ArrayList<>();
+		Collection<Field> collection = fields.values();
+		List<Field> list = new ArrayList<>(collection);
+		return list;
+	}
+
+	private void init() {
+
+		Map<String, Field> map = new HashMap<>();
 		Class<?> thisClass = this.object.getClass();
-		List<Field> thisFields = Arrays.asList(thisClass.getDeclaredFields());
-		list.addAll(thisFields);
-		for ( Class<?> tempClass = thisClass.getSuperclass(); tempClass != Object.class; tempClass = tempClass.getSuperclass()) {
-			Field[] fields = tempClass.getDeclaredFields();
-				for (Field f : fields) {
-					int i = f.getModifiers();
-					boolean isPrivate = Modifier.isPrivate(i);
-					if (isPrivate == false) {
-						list.add(f);
+		boolean isThisClass = true;
+		for (; thisClass != Object.class; thisClass = thisClass.getSuperclass()) {
+			Field[] fields = thisClass.getDeclaredFields();
+			for (Field f : fields) {
+				boolean isNotUID = !f.getName().equals(UID);
+				if (isNotUID) {
+					if (isThisClass) {
+						map.put(f.getName(), f);
+					} else {
+						int i = f.getModifiers();
+						boolean isPrivate = Modifier.isPrivate(i);
+						if (isPrivate == false) {
+							map.put(f.getName(), f);
+						}
 					}
 				}
+			}
+			isThisClass = false;
 		}
-		return list;
+
+		fields = map;
 	}
 
 	/**
 	 * 判断属性是否存在
 	 * 
-	 * @param field
-	 * @return
+	 * @param fieldName 
+	 * @return true/false
 	 */
-	public Boolean hasField(String fieldName) {
-		if (fieldName == null || fieldName.equals(NULL_STR)) {
-			return false;
-		}
-		
-		List<Field> fields = this.getFields();
-		for (Field f : fields) {
-			if (f.getName().equals(fieldName.trim())) {
-				return true;
-			}
-		}
-		return false;
+	public boolean hasField(String fieldName) {
+		return fields.containsKey(fieldName);
 
 	}
 
@@ -122,8 +126,8 @@ public class RObject {
 	public String getListFieldName(Class<?> listClass) {
 		List<Field> fields = getFields();
 		for (Field f : fields) {
-			Class<?> type = f.getType();
-			if (type.getName().equals(List.class.getName())) {
+			String typeName = f.getType().toString();
+			if (typeName.contains(LIST_INTERFACE)) {
 				ParameterizedType pt = (ParameterizedType) f.getGenericType();
 				String str = pt.getActualTypeArguments()[0].toString(); // 获取List泛型参数类型名称
 				str = str.replace(CLASS, NULL_STR).trim();// 全类名
@@ -142,13 +146,15 @@ public class RObject {
 	 * @param args
 	 */
 	public void invokeSetMethod(String fieldName, Object... args) {
-		PropertyDescriptor pd;
-		try {
-			pd = new PropertyDescriptor(fieldName, this.object.getClass());
-			Method method = pd.getWriteMethod();
-			method.invoke(this.object, args);
-		} catch (Exception e) {
-			e.printStackTrace();
+
+		if (this.hasField(fieldName)) {
+			PropertyDescriptor pd;
+			try {
+				pd = new PropertyDescriptor(fieldName, this.object.getClass());
+				Method method = pd.getWriteMethod();
+				method.invoke(object, args);
+			} catch (Exception e) {
+			}
 		}
 
 	}
@@ -160,17 +166,19 @@ public class RObject {
 	 * @return
 	 */
 	public Class<?> getSetMethodParamertType(String fieldName) {
-		PropertyDescriptor pd;
-		try {
-			pd = new PropertyDescriptor(fieldName, this.object.getClass());
-			Method method = pd.getWriteMethod();
-			Class<?>[] c = method.getParameterTypes();
-			return c[0];
-		} catch (IntrospectionException e) {
-			e.printStackTrace();
+		if (this.hasField(fieldName)) {
+			PropertyDescriptor pd;
+			try {
+				pd = new PropertyDescriptor(fieldName, this.object.getClass());
+				Method method = pd.getWriteMethod();
+				Class<?>[] c = method.getParameterTypes();
+				return c[0];
+			} catch (IntrospectionException e) {
+				return null;
+			}
+		}else{
 			return null;
 		}
-
 	}
 
 	/**
@@ -180,7 +188,10 @@ public class RObject {
 	 * @return
 	 */
 
-	public <T> T invokeGetMethod(String fieldName) {
+	public T invokeGetMethod(String fieldName) {
+		if ( ! this.hasField(fieldName) ) {
+			return null;
+		}
 		PropertyDescriptor pd;
 		try {
 			pd = new PropertyDescriptor(fieldName, this.object.getClass());
@@ -190,7 +201,7 @@ public class RObject {
 			T t = (T) method.invoke(this.object);
 			return t;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return null;
 		}
 
@@ -198,15 +209,19 @@ public class RObject {
 
 	/** 获取对象的属性和其对应的值 */
 	public Map<String, Object> getFiledAndValue() {
+
+		String str = JAVA_TYPES;
 		Map<String, Object> map = new HashMap<>();
+
 		List<Field> fields = this.getFields();
 		for (Field field : fields) {
-			String name = field.getName().replace("$cglib_prop_", "");
+			String name = field.getName();
+			if (!field.getName().equals(UID) && str.contains(field.getType().getSimpleName())) {
 				map.put(name, this.invokeGetMethod(name));
+			}
 		}
 		return map;
 	}
- 
 
 	/**
 	 * 反射执行方法
@@ -218,9 +233,15 @@ public class RObject {
 	 * @return 方法执行的返回值
 	 */
 
-	public <T> T invoke(String methodName, Object... args) {
-		Method method =  getDeclaredMethod (methodName);
+	public T invoke(String methodName, Object... args) {
 		try {
+			Method method = null;
+			for (Class<?> clazz = object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
+				try {
+					method = clazz.getDeclaredMethod(methodName, new Object().getClass());
+				} catch (Exception e) {
+				}
+			}
 			@SuppressWarnings("unchecked")
 			T t = (T) method.invoke(object, args);
 			return t;
@@ -229,38 +250,66 @@ public class RObject {
 			return null;
 		}
 	}
-    /**
-     * 获取类的方法
-     * @param object
-     * @param methodName
-     * @return
-     */
+
 	public Method getDeclaredMethod(String methodName) {
-		List<Method> list =  getDeclaredMethods();
-		for (Method method : list) {
-			if(method.getName().equals(methodName)){
+		Method method = null;
+		for (Class<?> clazz = this.object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
+			try {
+				method = clazz.getDeclaredMethod(methodName);
 				return method;
+			} catch (Exception e) {
 			}
 		}
 		return null;
 	}
-	
+
 	/**
-	 * 获取类的方法
-	 * @return 方法集
+	 * 实体转换
+	 * 
+	 * @param oldObj
+	 * @param newObjClass
+	 * @return
 	 */
-	public  List<Method> getDeclaredMethods() {
-		List<Method>  methods = new ArrayList<>();
-		for (Class<?> tempClass = this.object.getClass(); tempClass != Object.class; tempClass = tempClass.getSuperclass()) {
-			try {
-				List<Method> list  = Arrays.asList(tempClass.getDeclaredMethods());
-				methods.addAll(list);
-			} catch (Exception e) {
-				e.printStackTrace();
+	public static <N, O> N to(O oldObj, Class<N> newObjClass) {
+		if (oldObj == null || newObjClass == null) {
+			return null;
+		}
+		RObject<O> rOldObj = new RObject<>(oldObj);
+		RObject<N> rNewObj = new RObject<>(newObjClass);
+
+		Map<String, Object> map = rOldObj.getFiledAndValue();
+
+		for (Entry<String, Object> en : map.entrySet()) {
+			String key = en.getKey();
+			Object val = en.getValue();
+			if (rNewObj.hasField(key)) {
+				rNewObj.invokeSetMethod(key, val);
 			}
 		}
-		return methods;
+
+		return rNewObj.getObject();
+
 	}
 
-	 
+	/**
+	 * 批量对象转换
+	 * 
+	 * @param oldObjes
+	 *            被转换的对象集
+	 * @param newObjClass
+	 *            新对象的Class
+	 * @return 新对象集
+	 */
+	public static <N, O> List<N> tos(List<O> oldObjes, Class<N> newObjClass) {
+		List<N> list = new ArrayList<N>();
+		if (oldObjes == null || oldObjes.size() == 0 || newObjClass == null) {
+			return new ArrayList<>();
+		}
+		for (O obj : oldObjes) {
+			N newObje = to(obj, newObjClass);
+			list.add(newObje);
+		}
+		return list;
+	}
+
 }

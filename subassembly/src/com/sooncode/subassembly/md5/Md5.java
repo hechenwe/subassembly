@@ -51,7 +51,7 @@ public class Md5 {
     }
 
     public static void main(String[] args) {
-        System.out.println(Md5.GetMD5Code("123"));
+        System.out.println(Md5.GetMD5Code("000000").toUpperCase());
         //System.out.println(Md5.GetMD5Code(Md5.GetMD5Code("000000")));
     }
 }
