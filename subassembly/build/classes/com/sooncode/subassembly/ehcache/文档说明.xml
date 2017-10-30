@@ -1,4 +1,4 @@
-                            spring 集成 ehcache 缓存
+<test>                         spring 集成 ehcache 缓存 
                             
     1. jar包:ehcache-2.10.1.jar
     2. spring 配置文件 集成  ehcache (添加到applicationContext.xml)
@@ -173,3 +173,4 @@
 			得到缓存读取的已经被销毁的对象丢失次数；
 			Cache cache = manager.getCache("testCache");
 			int hits = cache.getMissCountExpired();
+</test> 

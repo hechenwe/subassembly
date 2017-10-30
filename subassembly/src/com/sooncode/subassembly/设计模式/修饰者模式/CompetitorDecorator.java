@@ -7,7 +7,7 @@ package com.sooncode.subassembly.设计模式.修饰者模式;
  * 1.继承被装饰类（Competitor）
  * 2.组合被装饰类
  */
-public class CompetitorDecorator extends Competitor{  
+public abstract class CompetitorDecorator extends Competitor{  
     /**
      * 组合被装饰类
      */

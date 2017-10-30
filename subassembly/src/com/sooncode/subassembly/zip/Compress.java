@@ -48,7 +48,7 @@ public class Compress {
     public static void main(String [] temp){
         Compress book = new Compress();
         try {
-           book.zip("d:\\zip");//你要压缩的文件夹
+           book.zip("d:\\usr");//你要压缩的文件夹
         }catch (Exception ex) {
            ex.printStackTrace();
        }

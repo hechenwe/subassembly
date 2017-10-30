@@ -1,4 +1,4 @@
-
+<test> 
 文件上传 spring mvc 
 jar 包 :
 commons-fileupload-1.2.2.jar
@@ -6,3 +6,5 @@ commons-io-2.4.jar
 
  在applicationContext.xml 配置如下bean
 org.springframework.web.multipart.commons.CommonsMultipartResolver 
+
+</test>

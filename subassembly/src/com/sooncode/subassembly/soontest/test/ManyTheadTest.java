@@ -1,4 +1,4 @@
-package com.sooncode.subassembly.soontest;
+package com.sooncode.subassembly.soontest.test;
 
 import java.sql.Connection;
 import java.util.LinkedList;
@@ -9,6 +9,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import com.sooncode.subassembly.pay.OrderUtil;
+import com.sooncode.subassembly.soontest.CallabbleMethod;
+import com.sooncode.subassembly.soontest.OpenInterfaceTest;
+import com.sooncode.subassembly.soontest.SoonTest;
 
 /**
  * 多线程测试
@@ -71,12 +74,29 @@ public class ManyTheadTest implements SoonTest  {
 
 	 
 
-	public static void main(String[] args) throws InterruptedException, ExecutionException {
-		ManyTheadTest mtt = new ManyTheadTest(5,999999);
-		SoonTest st = (SoonTest) OpenInterfaceTest.newInstance(mtt);
+	public static void main1(String[] args) throws InterruptedException, ExecutionException {
+		ManyTheadTest mtt = new ManyTheadTest(5,20);
+		OpenInterfaceTest oit = new OpenInterfaceTest();
+		SoonTest st = oit.newInstance4Test(mtt);
 		List< Object > list = st.testMethod( OrderUtil.class,"getOrderNumber",new String[]{"EDU"});
 		for ( Object  obj : list) {
 			System.out.println("结果:" + obj);
+		}
+	}
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+		ManyTheadTest mtt = new ManyTheadTest(20,20);
+		 
+		OpenInterfaceTest oit = new OpenInterfaceTest();
+		SoonTest st = oit.newInstance4Test(mtt);
+		
+		//List< Object > list0 = st.testMethod( SingletonManager.class,"setAge",new Object [] {RandomBuilder.random(0, 100)});
+		List< Object > list = st.testMethod( SingletonManager.class,"getSingletonManager",new Object [] { new DataModel()});
+		for ( Object  obj : list) {
+			System.out.println("----结果:" + obj);
+			SingletonManager sm = (SingletonManager) obj;
+			DataModel dm = sm.getDataModel();
+			dm.setName("XX"+ RandomBuilder.random(23, 123) );
+			System.out.println("结果:----" + sm.getDataModel());
 		}
 	}
 

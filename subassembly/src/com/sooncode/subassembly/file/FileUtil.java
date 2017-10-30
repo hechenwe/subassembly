@@ -2,10 +2,12 @@ package com.sooncode.subassembly.file;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -89,8 +91,10 @@ public class FileUtil {
 		if (!file.exists() || file.isDirectory()) {
 			throw new FileNotFoundException();
 		}
-		@SuppressWarnings("resource")
-		BufferedReader br = new BufferedReader(new FileReader(file));
+		 
+		
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "UTF-8");
+		BufferedReader br = new BufferedReader(isr);
 		String temp = null;
 		StringBuffer sb = new StringBuffer();
 		temp = br.readLine();
@@ -98,6 +102,7 @@ public class FileUtil {
 			sb.append(temp + " ");
 			temp = br.readLine();
 		}
+		br.close();
 		return sb.toString();
 	}
 

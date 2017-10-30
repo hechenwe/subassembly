@@ -1,6 +1,6 @@
 package com.sooncode.subassembly.list_sort;
 
-public class User {
+public class User{
 
 	private String userName;
 	private Integer age;
@@ -34,5 +34,6 @@ public class User {
 		return "User [userName=" + userName + ", age=" + age + ", hight=" + hight + "]";
 	}
 	
-	
+	 
+	 
 }

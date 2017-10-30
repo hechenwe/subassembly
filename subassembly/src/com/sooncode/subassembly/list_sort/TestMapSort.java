@@ -16,8 +16,11 @@ public static void main(String[] args) {
 
 			@Override
 			public boolean compare(Integer k1, Integer k2, User v1, User v2) {
-				 
-				return (v1.getHight() <= v2.getHight());
+				int n1 = k1+v1.getAge() + v1.getHight();
+				int n2 = k2+v2.getAge() + v2.getHight();
+				
+				
+				return (n1 <= n2);
 			}
 
 			 
